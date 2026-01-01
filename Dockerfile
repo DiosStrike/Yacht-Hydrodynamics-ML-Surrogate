@@ -1,23 +1,20 @@
-# Use an official and lightweight Python 3.9 runtime as a parent image
-FROM python:3.9-slim
+# Use a modern Python runtime to support latest library versions
+FROM python:3.11-slim
 
-# Set the working directory in the container to /app
+# Set the working directory for the container
 WORKDIR /app
 
-# Copy the requirements file into the container at /app
-# This is done first to leverage Docker's cache for faster builds
+# Copy only requirements first to optimize Docker layer caching
 COPY requirements.txt .
 
-# Install the necessary packages specified in requirements.txt
+# Install dependencies without pinning to problematic local versions
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of your project's local directory into the container
-# This includes app.py, models/, and src/ folders
+# Copy all project files into the container
 COPY . .
 
-# Expose port 5001 for the Flask application
-# We use 5001 to bypass the macOS 403 Forbidden error on port 5000
+# Expose port 5001 for public access
 EXPOSE 5001
 
-# Define the command to run your app using the Python interpreter
-CMD ["python", "app.py"]
+# Start the application using gunicorn for production stability
+CMD ["gunicorn", "--bind", "0.0.0.0:5001", "app:app"]
