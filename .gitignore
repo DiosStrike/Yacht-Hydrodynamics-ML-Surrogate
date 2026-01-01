@@ -1,2 +1,27 @@
-venv/
+# Byte-compiled / optimized / DLL files
 __pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+venv/
+env/
+.env
+.venv
+
+# macOS System Files
+.DS_Store
+
+# IDEs
+.vscode/
+.idea/
+
+# Streamlit logs/config
+.streamlit/config.toml
+.streamlit/static/
+
+# Telemetry data (if you want to keep logs local only)
+voyage_telemetry.jsonl
+
+# Large model files (Optional: Keep if they are small, exclude if >50MB)
+# models/*.pkl
